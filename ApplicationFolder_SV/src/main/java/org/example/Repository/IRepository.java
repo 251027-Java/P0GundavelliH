@@ -1,22 +1,17 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package org.example.Repository;
 
 import java.util.List;
 
 public interface IRepository<T, ID> {
-    void create(T var1);
+    void create(T entity);
 
-    T get(ID var1);
+    T get(ID entity);
 
-    void update(T var1);
+    void update(T entity);
 
-    void delete(ID var1);
+    void delete(ID entity);
 
     List<T> findAll();
 
-    void saveAll(List<T> var1);
+    void saveAll(List<T> entities);
 }

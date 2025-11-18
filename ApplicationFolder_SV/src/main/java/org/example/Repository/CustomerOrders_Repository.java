@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package org.example.Repository;
 
 import java.sql.PreparedStatement;
@@ -18,7 +13,7 @@ public class CustomerOrders_Repository extends PostgreSQLRepository implements I
         String sql = "INSERT INTO sv.CustomerOrders (orderId, customerId, orderDate, totalCost, status) VALUES (?, ?, ?, ?, ?);";
 
         try (PreparedStatement stmt = this.getConnection().prepareStatement(sql)) {
-            stmt.setInt(1, entity.getOrderId());
+            stmt.setInt(1, entity.getCo_Id());
             stmt.setInt(2, entity.getCustomerId());
             stmt.setTimestamp(3, new Timestamp(entity.getOrderDate().getTime()));
             stmt.setDouble(4, entity.getTotalCost());

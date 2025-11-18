@@ -20,7 +20,20 @@ public class PostgreSQLRepository {
         try {
             this.connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/sweetverse_db", "postgres", "my_secure_pass");
             this.createSchema();
+
+            // Create tables without dependencies first
+            this.createProductTable();
+            this.createCustomerProfilesTable();
+
+            // Create tables that depend on the ones above
+            this.createInventoryTable();
+            this.createStockAlertTable();
+            this.createPurchaseOrderTable();
             this.createCustomerOrdersTable();
+
+            // Create the final line-item tables
+            this.createOrderItemsTable();
+            this.createPurchaseOrderItemTable();
             System.out.println("Database setup complete!");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -41,9 +54,100 @@ public class PostgreSQLRepository {
 
     private void createCustomerOrdersTable() throws SQLException {
         try (Statement stmt = this.connection.createStatement()) {
-            String sql = "CREATE TABLE IF NOT EXISTS sv.CustomerOrders (orderId SERIAL PRIMARY KEY,customerId INT NOT NULL,orderDate TIMESTAMP NOT NULL,totalCost FLOAT NOT NULL,status VARCHAR(20) NOT NULL);";
+            String sql = "CREATE TABLE IF NOT EXISTS sv.CustomerOrders (" +
+                    "co_id SERIAL PRIMARY KEY," + // Changed orderId to co_id
+                    "customerId INT NOT NULL," +
+                    "orderDate TIMESTAMP NOT NULL," +
+                    "totalCost FLOAT NOT NULL," +
+                    "status VARCHAR(20) NOT NULL);";
             stmt.execute(sql);
         }
-
     }
+
+    private void createCustomerProfilesTable() throws SQLException {
+        try (Statement stmt = this.connection.createStatement()) {
+            String sql = "CREATE TABLE IF NOT EXISTS sv.CustomerProfiles (" +
+                    "customerId SERIAL PRIMARY KEY," +
+                    "name VARCHAR(50) NOT NULL," + // Increased size for name
+                    "email VARCHAR(50) NOT NULL);"; // Removed extra parentheses and orderDate
+            stmt.execute(sql);
+        }
+    }
+
+
+    private void createOrderItemsTable() throws SQLException {
+        try (Statement stmt = this.connection.createStatement()) {
+            String sql = "CREATE TABLE IF NOT EXISTS sv.OrderItems (" +
+                    "orderItemId SERIAL PRIMARY KEY," +
+                    "co_id INT NOT NULL," + // Foreign key to CustomerOrders
+                    "productId INT NOT NULL," + // Foreign key to Product
+                    "priceAtSale FLOAT NOT NULL);";
+            stmt.execute(sql);
+        }
+    }
+
+    private void createProductTable() throws SQLException {
+        try (Statement stmt = this.connection.createStatement()) {
+            String sql = "CREATE TABLE IF NOT EXISTS sv.Product (" +
+                    "productId SERIAL PRIMARY KEY," +
+                    "itemName VARCHAR(100) NOT NULL," +
+                    "sellingPrice FLOAT NOT NULL," +
+                    "unitCost FLOAT NOT NULL," +
+                    "category VARCHAR(50) NOT NULL);";
+            stmt.execute(sql);
+        }
+    }
+
+    private void createInventoryTable() throws SQLException {
+        try (Statement stmt = this.connection.createStatement()) {
+            String sql = "CREATE TABLE IF NOT EXISTS sv.Inventory (" +
+                    "inventoryId SERIAL PRIMARY KEY," +
+                    "productId INT NOT NULL," + // Foreign key to Product
+                    "quantityInStock INT NOT NULL," +
+                    "lastUpdated TIMESTAMP NOT NULL);";
+            stmt.execute(sql);
+        }
+    }
+
+    private void createStockAlertTable() throws SQLException {
+        try (Statement stmt = this.connection.createStatement()) {
+            String sql = "CREATE TABLE IF NOT EXISTS sv.StockAlert (" +
+                    "alert_id SERIAL PRIMARY KEY," +
+                    "productId INT NOT NULL," + // Foreign key to Product
+                    "timestamp TIMESTAMP NOT NULL," +
+                    "is_resolved VARCHAR(10) NOT NULL);"; // Using VARCHAR or BOOLEAN is fine
+            stmt.execute(sql);
+        }
+    }
+
+    private void createPurchaseOrderTable() throws SQLException {
+        try (Statement stmt = this.connection.createStatement()) {
+            String sql = "CREATE TABLE IF NOT EXISTS sv.PurchaseOrder (" +
+                    "po_id SERIAL PRIMARY KEY," +
+                    "vendor_name VARCHAR(50) NOT NULL," +
+                    "total_order_cost FLOAT NOT NULL," +
+                    "orderDate TIMESTAMP NOT NULL," +
+                    "status VARCHAR(20) NOT NULL);";
+            stmt.execute(sql);
+        }
+    }
+
+    private void createPurchaseOrderItemTable() throws SQLException {
+        try (Statement stmt = this.connection.createStatement()) {
+            String sql = "CREATE TABLE IF NOT EXISTS sv.PurchaseOrderItem (" +
+                    "po_item_id SERIAL PRIMARY KEY," +
+                    "po_id INT NOT NULL," + // Foreign key to PurchaseOrder
+                    "productId INT NOT NULL," + // Foreign key to Product
+                    "quantity_received INT NOT NULL," +
+                    "purchase_cost FLOAT NOT NULL);";
+            stmt.execute(sql);
+        }
+    }
+
+
+
+
+
+
+
 }
