@@ -36,7 +36,7 @@ public class CustomerOrders_Repository extends PostgreSQLRepository implements I
                     if (rs.next()) {
                         // 4. Extract the ID from the first column
                         generatedCo_Id = rs.getInt(1);
-                        System.out.println("Order item created successfully! New ID: " + generatedCo_Id);
+                        System.out.println("Customer order created successfully! New ID: " + generatedCo_Id);
                     }
                 }
             } else {

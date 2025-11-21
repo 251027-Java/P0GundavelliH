@@ -66,7 +66,7 @@ public class CustomerProfiles_Repository extends PostgreSQLRepository implements
                     if (rs.next()) {
                         // 4. Extract the ID from the first column
                         generatedProfileId = rs.getInt(1);
-                        System.out.println("Profile created successfully! New ID: " + generatedProfileId);
+                        //System.out.println("Profile created successfully! New ID: " + generatedProfileId);
                     }
                 }
             } else {

@@ -125,7 +125,7 @@ public class Products_Repository extends PostgreSQLRepository implements IReposi
                     if (rs.next()) {
                         // 4. Extract the ID from the first column
                         generatedProductId = rs.getInt(1);
-                        System.out.println("Product created successfully! New ID: " + generatedProductId);
+                        //System.out.println("Product created successfully! New ID: " + generatedProductId);
                     }
                 }
             } else {

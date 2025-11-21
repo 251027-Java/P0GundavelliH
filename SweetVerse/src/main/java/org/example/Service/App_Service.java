@@ -76,7 +76,7 @@ public class App_Service {
                 return; // Exit the method immediately
             }
 
-            System.out.println("Tables are empty. Beginning initialization...");
+            //System.out.println("Tables are empty. Beginning initialization...");
 
             ProductsRepo.resetSequence();
             InventoryRepo.resetSequenceToNine();
@@ -87,7 +87,7 @@ public class App_Service {
             int productId_3 = createNewProduct("Vanilla", "flavor", 6.00);
             int productId_4 = createNewProduct("Chocolate", "flavor", 6.00);
             int productId_5 = createNewProduct("Strawberry", "flavor", 6.00);
-            int productId_6 = createNewProduct("Oreo pieces", "topping", 0.75);
+            int productId_6 = createNewProduct("Oreo Pieces", "topping", 0.75);
             int productId_7 = createNewProduct("Crushed Reese's", "topping", 0.75);
             int productId_8 = createNewProduct("Crushed M&M's", "topping", 0.75);
 
@@ -102,7 +102,7 @@ public class App_Service {
 
 
 
-            System.out.println("Initial product and inventory data successfully inserted.");
+           // System.out.println("Initial product and inventory data successfully inserted.");
 
         } catch (Exception e) {
             System.err.println("Error during table initialization: " + e.getMessage());
@@ -154,7 +154,7 @@ public class App_Service {
         CustomerOrders newOrder = new CustomerOrders(customerId, orderDetails, orderDate, totalCost, status);
 
         int co_id = COrderRepo.create(newOrder);
-        System.out.println("New Customer Order Placed!");
+        //System.out.println("New Customer Order Placed!");
 
         //create the orderItems
         //have co_id, cost
@@ -187,14 +187,14 @@ public class App_Service {
         int flavorItemId = OItemsRepo.create(flavorItem);
         int toppingItemId = OItemsRepo.create(toppingItem);
 
-        //flavor -2, topping and entree -1
+        //flavor - deduct 2, topping and entree - deduct 1
 
         //updateEntree
-        InventoryRepo.updateInventoryStock(entreePId, 2);
+        InventoryRepo.updateInventoryStock(entreePId, 1);
         //updateFlavor
         InventoryRepo.updateInventoryStock(flavorPId, 2);
         //updateTopping
-        InventoryRepo.updateInventoryStock(toppingPId, 2);
+        InventoryRepo.updateInventoryStock(toppingPId, 1);
 
     }
 
@@ -202,7 +202,7 @@ public class App_Service {
 
     public void displayMenu() {
         //productId, itemName, productType, atSaleCost
-        System.out.printf("%22s", "Menu\n");
+        System.out.printf("%22s", "\nMenu\n");
         for (int i = 1; i < 9; i++) {
             //ProductsRepo.get(i);
             Products retrievedProduct = ProductsRepo.get(i);
