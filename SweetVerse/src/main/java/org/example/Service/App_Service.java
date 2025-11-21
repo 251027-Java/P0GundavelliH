@@ -202,7 +202,8 @@ public class App_Service {
 
     public void displayMenu() {
         //productId, itemName, productType, atSaleCost
-        System.out.printf("%22s", "\nMenu\n");
+        System.out.println();
+        System.out.printf("%22s", "Menu\n");
         for (int i = 1; i < 9; i++) {
             //ProductsRepo.get(i);
             Products retrievedProduct = ProductsRepo.get(i);
