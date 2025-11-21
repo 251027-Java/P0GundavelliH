@@ -66,9 +66,7 @@ public class App_Service {
     public void initializeTables() {
         System.out.println("Initializing Products and Inventory tables with default data...");
 
-        // 1. Check if the table is empty (optional but recommended)
-        // You would need a findAll() or count() method in your repo for this.
-        // For simplicity, we'll just insert the data.
+
 
         try {
             // --- STEP 1: Check for Existing Data ---
@@ -108,7 +106,7 @@ public class App_Service {
 
         } catch (Exception e) {
             System.err.println("Error during table initialization: " + e.getMessage());
-            // Optionally, re-throw the exception or handle connection issues
+
         }
 
     }
@@ -198,22 +196,6 @@ public class App_Service {
         //updateTopping
         InventoryRepo.updateInventoryStock(toppingPId, 2);
 
-        //updateQuantityInStockByProductId
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // After all logic is done, return the customerId (or the new orderId)
-        //return customerId;
     }
 
 
@@ -224,7 +206,7 @@ public class App_Service {
         for (int i = 1; i < 9; i++) {
             //ProductsRepo.get(i);
             Products retrievedProduct = ProductsRepo.get(i);
-            //int productId = ProductsRepo.get(i).getProductId();
+
             String itemName = retrievedProduct.getItemName();
             String productType = retrievedProduct.getProductType();
             double atSaleCost = retrievedProduct.getAtSaleCost();
